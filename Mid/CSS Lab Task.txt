@@ -10,3 +10,8 @@
         <h1>Student Service Portal</h1>
         <p>Submit your digital requests below.</p>
     </header>
+	<nav>
+        <a href="#">Home</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+    </nav>
