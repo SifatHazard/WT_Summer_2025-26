@@ -15,3 +15,42 @@
         <a href="#">Services</a>
         <a href="#">Contact</a>
     </nav>
+	
+	<main>
+        <section>
+            <h2>Our Services</h2>
+            <p>Use this form to submit transcript requests, ID card issues, or general inquiries.</p>
+        </section>
+
+        <section>
+            <form action="#" method="POST">
+                <h2>Service Request Form</h2>
+                
+                <label>Student Name:</label>
+                <input type="text" required>
+
+                <label>Student ID:</label>
+                <input type="text" maxlength="10" required>
+
+                <label>Email Address:</label>
+                <input type="email" required>
+
+                <label>Service Type:</label>
+                <select>
+                    <option>Transcript Request</option>
+                    <option>ID Card Issue</option>
+                    <option>General Inquiry</option>
+                </select>
+
+                <label>Urgency Level:</label>
+                <input type="radio" id="low" name="urgency" checked> <label for="low" style="display:inline;">Low</label>
+                <input type="radio" id="medium" name="urgency"> <label for="medium" style="display:inline;">Medium</label>
+                <input type="radio" id="high" name="urgency"> <label for="high" style="display:inline;">High</label>
+
+                <label>Additional Details:</label>
+                <textarea rows="4"></textarea>
+
+                <button type="submit">Submit Request</button>
+            </form>
+        </section>
+    </main>
