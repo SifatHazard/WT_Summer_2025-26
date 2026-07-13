@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Contact Form Validation</title>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+    body {
+        font-family: Arial, sans-serif;
+        background: #f2f4f7;
+        display: flex;
+        justify-content: center;
+        padding: 30px 15px;
+    }
+    .container {
+        background: #ffffff;
+        width: 100%;
+        max-width: 480px;
+        padding: 30px 35px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+        text-align: center;
+        color: #2b3a55;
+        margin-bottom: 25px;
+    }
+    label {
+        display: block;
+        margin-top: 15px;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #333;
+    }
+    input, textarea {
+        width: 100%;
+        padding: 8px 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+    textarea {
+        resize: vertical;
+        min-height: 70px;
+    }
+    input.invalid, textarea.invalid {
+        border-color: #d9534f;
+    }
+    input.valid, textarea.valid {
+        border-color: #5cb85c;
+    }
+    .error-message {
+        color: #d9534f;
+        font-size: 13px;
+        margin-top: 4px;
+        min-height: 16px;
+    }
+    button {
+        margin-top: 25px;
+        width: 100%;
+        padding: 10px;
+        background: #2b3a55;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        font-size: 15px;
+        cursor: pointer;
+    }
+    button:hover {
+        background: #1c2740;
+    }
+    #successMessage {
+        display: none;
+        background: #eaf7ea;
+        border: 1px solid #5cb85c;
+        color: #256029;
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 20px;
+        line-height: 1.6;
+    }
+    #successMessage h3 {
+        margin-top: 0;
+        color: #256029;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Contact Form</h2>
+
+    <form id="contactForm" novalidate>
+        <label for="name">Name:</label>
+        <input type="text" id="name">
+        <div class="error-message" id="nameError"></div>
+
+        <label for="email">Email:</label>
+        <input type="text" id="email">
+        <div class="error-message" id="emailError"></div>
+
+        <label for="phone">Phone Number:</label>
+        <input type="text" id="phone">
+        <div class="error-message" id="phoneError"></div>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password">
+        <div class="error-message" id="passwordError"></div>
+
+        <label for="message">Message:</label>
+        <textarea id="message"></textarea>
+        <div class="error-message" id="messageError"></div>
+
+        <label for="age">Age:</label>
+        <input type="text" id="age">
+        <div class="error-message" id="ageError"></div>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <div id="successMessage"></div>
+</div>
+
+<script>
+// Grab elements using the DOM
+var form = document.getElementById("contactForm");
+
+var nameInput = document.getElementById("name");
+var emailInput = document.getElementById("email");
+var phoneInput = document.getElementById("phone");
+var passwordInput = document.getElementById("password");
+var messageInput = document.getElementById("message");
+var ageInput = document.getElementById("age");
+
+var nameError = document.getElementById("nameError");
+var emailError = document.getElementById("emailError");
+var phoneError = document.getElementById("phoneError");
+var passwordError = document.getElementById("passwordError");
+var messageError = document.getElementById("messageError");
+var ageError = document.getElementById("ageError");
+
+var successMessage = document.getElementById("successMessage");
+
+// Helper to show an error on a field
+function showError(input, errorEl, msg) {
+    input.classList.add("invalid");
+    input.classList.remove("valid");
+    errorEl.textContent = msg;
+}
+
+// Helper to clear an error on a field (valid state)
+function clearError(input, errorEl) {
+    input.classList.remove("invalid");
+    input.classList.add("valid");
+    errorEl.textContent = "";
+}
+
+// ---- Individual field validators ----
+// Each returns true if valid, false if not, and updates the DOM accordingly.
+
+function validateName() {
+    var value = nameInput.value.trim();
+    if (value === "") {
+        showError(nameInput, nameError, "Name is required.");
+        return false;
+    }
+    var regex = /^[A-Za-z ]{3,}$/;
+    if (!regex.test(value)) {
+        showError(nameInput, nameError, "Name must be alphabets/spaces only, min 3 characters.");
+        return false;
+    }
+    clearError(nameInput, nameError);
+    return true;
+}
+
+function validateEmail() {
+    var value = emailInput.value.trim();
+    if (value === "") {
+        showError(emailInput, emailError, "Email is required.");
+        return false;
+    }
+    var regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!regex.test(value)) {
+        showError(emailInput, emailError, "Please enter a valid email address.");
+        return false;
+    }
+    clearError(emailInput, emailError);
+    return true;
+}
+
+function validatePhone() {
+    var value = phoneInput.value.trim();
+    if (value === "") {
+        showError(phoneInput, phoneError, "Phone number is required.");
+        return false;
+    }
+    var regex = /^[0-9]{10}$/;
+    if (!regex.test(value)) {
+        showError(phoneInput, phoneError, "Phone number must be exactly 10 digits.");
+        return false;
+    }
+    clearError(phoneInput, phoneError);
+    return true;
+}
+
+function validatePassword() {
+    var value = passwordInput.value;
+    if (value === "") {
+        showError(passwordInput, passwordError, "Password is required.");
+        return false;
+    }
+    var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+    if (!regex.test(value)) {
+        showError(passwordInput, passwordError,
+            "Min 8 characters, 1 uppercase, 1 lowercase, 1 number, 1 special character.");
+        return false;
+    }
+    clearError(passwordInput, passwordError);
+    return true;
+}
+
+function validateMessage() {
+    var value = messageInput.value.trim();
+    if (value === "") {
+        showError(messageInput, messageError, "Message is required.");
+        return false;
+    }
+    if (value.length < 10) {
+        showError(messageInput, messageError, "Message must be at least 10 characters.");
+        return false;
+    }
+    clearError(messageInput, messageError);
+    return true;
+}
+
+function validateAge() {
+    var value = ageInput.value.trim();
+    if (value === "") {
+        showError(ageInput, ageError, "Age is required.");
+        return false;
+    }
+    if (isNaN(value) || Number(value) < 18) {
+        showError(ageInput, ageError, "You must be 18 years or older.");
+        return false;
+    }
+    clearError(ageInput, ageError);
+    return true;
+}
+
+// Re-validate a field as the user types, so errors disappear once fixed
+nameInput.addEventListener("input", validateName);
+emailInput.addEventListener("input", validateEmail);
+phoneInput.addEventListener("input", validatePhone);
+passwordInput.addEventListener("input", validatePassword);
+messageInput.addEventListener("input", validateMessage);
+ageInput.addEventListener("input", validateAge);
+
+// Handle form submission
+form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    var isNameValid = validateName();
+    var isEmailValid = validateEmail();
+    var isPhoneValid = validatePhone();
+    var isPasswordValid = validatePassword();
+    var isMessageValid = validateMessage();
+    var isAgeValid = validateAge();
+
+    var allValid = isNameValid && isEmailValid && isPhoneValid &&
+                    isPasswordValid && isMessageValid && isAgeValid;
+
+    if (!allValid) {
+        successMessage.style.display = "none";
+        return;
+    }
+
+    // Build the success message using the DOM
+    successMessage.innerHTML =
+        "<h3>Registration Successful!</h3>" +
+        "<p>Name: " + nameInput.value.trim() + "</p>" +
+        "<p>Email: " + emailInput.value.trim() + "</p>" +
+        "<p>Phone: " + phoneInput.value.trim() + "</p>" +
+        "<p>Age: " + ageInput.value.trim() + "</p>" +
+        "<p>Message: " + messageInput.value.trim() + "</p>" +
+        "<p>Thank you for registering successfully.</p>";
+
+    successMessage.style.display = "block";
+    form.reset();
+
+    // Clear the valid/invalid styling after reset
+    [nameInput, emailInput, phoneInput, passwordInput, messageInput, ageInput].forEach(function (input) {
+        input.classList.remove("valid", "invalid");
+    });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Portfolio</title>
+<style>
+    :root {
+        --bg: #f7f7fa;
+        --text: #222;
+        --card-bg: #ffffff;
+        --accent: #3f6fd1;
+        --border: #e0e0e6;
+    }
+    [data-theme="dark"] {
+        --bg: #14161a;
+        --text: #ececec;
+        --card-bg: #1f2229;
+        --accent: #6f9bff;
+        --border: #2c2f36;
+    }
+    * {
+        box-sizing: border-box;
+    }
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        transition: background 0.3s, color 0.3s;
+    }
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px 40px;
+        border-bottom: 1px solid var(--border);
+    }
+    header h1 {
+        font-size: 20px;
+        margin: 0;
+        color: var(--accent);
+    }
+    #themeToggle {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 8px 14px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    section {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 50px 20px;
+    }
+    #greeting {
+        text-align: center;
+        font-size: 26px;
+        font-weight: bold;
+        color: var(--accent);
+        margin-bottom: 5px;
+    }
+    #clock {
+        text-align: center;
+        font-size: 14px;
+        opacity: 0.7;
+        margin-bottom: 40px;
+    }
+    .card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 25px;
+        margin-bottom: 25px;
+    }
+    h2 {
+        color: var(--accent);
+        margin-top: 0;
+    }
+    .skills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .skills span {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        padding: 6px 12px;
+        border-radius: 15px;
+        font-size: 13px;
+    }
+    footer {
+        text-align: center;
+        padding: 20px;
+        font-size: 13px;
+        opacity: 0.7;
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Kaosar Alam</h1>
+    <button id="themeToggle">Dark Mode</button>
+</header>
+
+<section>
+    <div id="greeting"></div>
+    <div id="clock"></div>
+
+    <div class="card" id="about">
+        <h2>About Me</h2>
+        <p>I'm a software developer who enjoys building clean, functional web
+        applications. This portfolio highlights my background, skills, and
+        projects.</p>
+    </div>
+
+    <div class="card" id="skills-section">
+        <h2>Skills</h2>
+        <div class="skills">
+            <span>HTML</span>
+            <span>CSS</span>
+            <span>JavaScript</span>
+            <span>DOM Manipulation</span>
+            <span>Responsive Design</span>
+        </div>
+    </div>
+
+    <div class="card" id="projects">
+        <h2>Projects</h2>
+        <p><strong>Contact Form Validation</strong> — A form that validates
+        name, email, phone, password, message, and age using the DOM.</p>
+        <p><strong>Portfolio Website</strong> — This very site, featuring a
+        dark/light mode toggle and a live time-based greeting.</p>
+    </div>
+
+    <div class="card" id="contact">
+        <h2>Contact</h2>
+        <p>Email: iamkaosar16@gmail.com</p>
+        <p>Location: Dhaka, Bangladesh</p>
+    </div>
+</section>
+
+<footer>
+    &copy; <span id="year"></span> Kaosar Alam. All rights reserved.
+</footer>
+
+<script>
+// ---- Theme Switcher ----
+var themeToggle = document.getElementById("themeToggle");
+var html = document.documentElement;
+
+function applyTheme(theme) {
+    html.setAttribute("data-theme", theme);
+    themeToggle.textContent = theme === "dark" ? "Light Mode" : "Dark Mode";
+}
+
+// Default to light mode on load
+applyTheme("light");
+
+themeToggle.addEventListener("click", function () {
+    var current = html.getAttribute("data-theme");
+    applyTheme(current === "dark" ? "light" : "dark");
+});
+
+// ---- Live Clock / Time-Based Greeting ----
+var greetingEl = document.getElementById("greeting");
+var clockEl = document.getElementById("clock");
+
+function updateClock() {
+    var now = new Date();
+    var hours = now.getHours();
+
+    var greeting;
+    if (hours < 12) {
+        greeting = "Good Morning!";
+    } else if (hours < 18) {
+        greeting = "Good Afternoon!";
+    } else {
+        greeting = "Good Evening!";
+    }
+
+    greetingEl.textContent = greeting;
+    clockEl.textContent = now.toLocaleTimeString();
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+
+// ---- Footer year ----
+document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
